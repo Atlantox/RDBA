@@ -19,10 +19,10 @@ Requeriments:
 2. Import hikari and lightbulb libraries
 
 If you know how to implement a Discord bot, you shouldn't have problem, but, if you dont know, follow this list of tutorials: (not mines)
-    Part 1: https://www.youtube.com/watch?v=xc1VpbRd4is
-    Part 2: https://www.youtube.com/watch?v=RejwzqK6dJI
-    Part 3: https://www.youtube.com/watch?v=EdHhYduCaOw
-    Part 4: https://www.youtube.com/watch?v=kz8bgwkfe-k
+1. https://www.youtube.com/watch?v=xc1VpbRd4is
+2. https://www.youtube.com/watch?v=RejwzqK6dJI
+3. https://www.youtube.com/watch?v=EdHhYduCaOw
+4. https://www.youtube.com/watch?v=kz8bgwkfe-k
 
 
 
