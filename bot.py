@@ -8,6 +8,7 @@ from general import *
 
 if __name__ == '__main__':
     config = {}
+    # Getting settings from settings.txt
     with open('settings.txt', 'r', encoding='utf-8') as f:
         for line in f.readlines():
             split = line.split('=')
@@ -20,6 +21,7 @@ if __name__ == '__main__':
     admins = config['ADMIN_NAMES'].split(',')
     admins = [id.strip() for id in admins]
 
+    # Settings constants
     BOT_TOKEN = config['BOT_TOKEN']
     DEFAULT_GUILDS = guilds_id
     ADMIN_NAMES = admins
