@@ -2,7 +2,7 @@ RDBA Documentation
 
 Roleplaying Discord Bot Assistant by Atlantox7
 
-Version: 1.3
+Version: 2.0
 
 A simple Discord Bot that offers useful commands to roleplaying with friends in Discord
 
@@ -18,10 +18,17 @@ All information is saved in a Sqlite database, so don't worry, every byte will b
 
 Requeriments:
 
-1. Have installed Python
+Easy mode:
+1. Download the release
+2. Config settings.txt (be sure not use blank spaces and separate all with commas)
+3. Custom the profesions as you like
+3. Run bot.exe
+
+Developer mode:
+1. Install python
 2. Download RDBA
-3. Install requeriments.txt in virtual enviroment
-4. Configure settings.py
+3. Config settings.txt (be sure not use blank spaces and separate all with commas)
+4. Custom the professions and the code as you like
 5. Run bot.py
 
 If you know how to implement a Discord bot, you shouldn't have problem, but, if you dont know, follow this list of tutorials: (not mines)
@@ -31,9 +38,8 @@ If you know how to implement a Discord bot, you shouldn't have problem, but, if 
 * Part 4: https://www.youtube.com/watch?v=kz8bgwkfe-k
 
 
-Version 1.3 notes:
-* Reestructuring CharacterManagement.py and Dices.py to OOP (oriented object programming)
-* Adding settings.py to ease the bot configuration
+Version 2.0 notes:
+* New executable release, now anybody can use the bot
 
 
 Made by Atlantox7:
