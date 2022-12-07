@@ -2,7 +2,7 @@ RDBA Documentation
 
 Roleplaying Discord Bot Assistant by Atlantox7
 
-Version: 2.0
+Version: 2.1
 
 A simple Discord Bot that offers useful commands to roleplaying with friends in Discord
 
@@ -38,8 +38,8 @@ If you know how to implement a Discord bot, you shouldn't have problem, but, if 
 * Part 4: https://www.youtube.com/watch?v=kz8bgwkfe-k
 
 
-Version 2.0 notes:
-* New executable release, now anybody can use the bot
+Version 2.1 notes:
+* Now the names (characters and stads) are most pious with upper case and blank spaces
 
 
 Made by Atlantox7:
