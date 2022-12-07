@@ -18,6 +18,14 @@ class CharacterManagement():
         self.cursor = None
         self.database = 'Roleplay'  # Database name
 
+    def get_fixed_name(self, name: str, isName = True) -> str:
+        """
+        Return a character name replacing blank spaces to _
+        """
+        if isName:
+            name = name.title()
+        return name.replace(' ', '_')
+
     #--------------------------------------- DATABASE FUNCTIONS ---------------------------------------
 
     def open_connection(self) -> None:
@@ -88,6 +96,7 @@ class CharacterManagement():
         result = ''
         state = 'creado'
         self.open_connection()
+        name = self.get_fixed_name(name)
 
         try:
             self.cursor.execute(f"DROP TABLE {name}_inv")
@@ -116,7 +125,7 @@ class CharacterManagement():
 
         self.cursor.executemany(f"INSERT INTO {name}_inv VALUES (?,?)", PROFESSIONS_INVENTORIES[profession])
         self.connection.commit()
-        result += f"{name} {profession} {state} con el siguiente inventario:"
+        result += f"**{name}** {profession} {state} con el siguiente inventario:"
 
         self.close_connection()
         result += self.get_inventory(name)
@@ -131,15 +140,18 @@ class CharacterManagement():
         Returns a str: A list of the character inventory.
         """
         result = ''
+        name = self.get_fixed_name(name)
         self.open_connection()
+        
 
         try:
             self.cursor.execute(f"SELECT * FROM {name}_inv")
             inventory = self.cursor.fetchall()
+            result += f"Inventario de **{name.replace('_',' ')}:**"
             for item in inventory:
                 result += f"\n{item[0]}: {item[1]}"
         except:
-            result = f'{name} no encontrado'
+            result = f"**{name.replace('_', ' ')}** no encontrado"
 
         self.close_connection()
 
@@ -158,6 +170,7 @@ class CharacterManagement():
         """
 
         result = ''
+        name = self.get_fixed_name(name)
         self.open_connection()
 
         try:
@@ -178,7 +191,7 @@ class CharacterManagement():
                     self.cursor.execute(f"UPDATE {name}_inv SET cantidad={newQuantity} WHERE item = '{item}'")
 
             self.connection.commit()
-            result += f"Inventario de {name} modificado, quedó así:"
+            result += f"Inventario de **{name}** modificado, quedó así:"
             result += self.get_inventory(name)
 
         except:
@@ -203,6 +216,8 @@ class CharacterManagement():
         Returns a str: A message that shows the current stads values of the character
         """
         result = ''
+        name = self.get_fixed_name(name)
+        stad = self.get_fixed_name(stad, False)
         self.open_connection()
 
         try:
@@ -220,9 +235,9 @@ class CharacterManagement():
             self.cursor.execute(f"UPDATE characters SET {stad}={newStat} WHERE nombre = '{name}'")
             self.connection.commit()
             name = name.replace('_',' ')
-            result = f"{name} ahora tiene {newStat} {stad}"
+            result = f"**{name}** ahora tiene {newStat} {stad.replace('_', ' ')}"
         else:
-            result = f'{name} no encontrado'
+            result = f'**{name}** no encontrado'
 
         self.close_connection()
 
@@ -238,13 +253,14 @@ class CharacterManagement():
         """
 
         result = ''
+        stadName = self.get_fixed_name(stadName, False)
         self.open_connection()
         try:
             self.cursor.execute(f"ALTER TABLE characters DROP COLUMN {stadName}")
             self.connection.commit()
-            result = f'Estadística {stadName} borrada'
+            result = f'Estadística **{stadName}** borrada'
         except:
-            result = f'Estadística {stadName} no encontrada'
+            result = f'Estadística **{stadName}** no encontrada'
         
         self.close_connection()
 
@@ -260,18 +276,19 @@ class CharacterManagement():
         '''
 
         result = ''
+        name = self.get_fixed_name(name)
         self.open_connection()
 
         self.cursor.execute(f"SELECT * FROM characters WHERE nombre = '{name}'")
         stads = self.cursor.fetchall()
         if stads:
             stads = stads[0]
-            result = f'{stads[0]}:'
+            result = f"**{name.replace('_', ' ')}:**"
             columns = list(map(lambda x: x[0], self.cursor.description))
             for i in range(1,len(columns)):
-                result += f'\n{columns[i]}-> {stads[i]}'
+                result += f"\n{columns[i].replace('_', ' ')}-> {stads[i]}"
         else:
-            result = f'{name} no encontrado'
+            result = f"**{name.replace('_', ' ')}** no encontrado"
     
         self.close_connection()
 
@@ -293,7 +310,7 @@ class CharacterManagement():
 
         for i in range(len(characters)):
             name = characters[i][0].replace('_',' ')
-            result += f"\n{name}->"
+            result += f"\n**{name}**->"
             for j in range(1, len(stads)):
                 if(j > 1):
                     result += f", {stads[j]}: {characters[i][j]}"
@@ -317,6 +334,7 @@ class CharacterManagement():
         """
         
         result = ''
+        name = self.get_fixed_name(name)
         self.open_connection()
 
         try:
@@ -324,9 +342,9 @@ class CharacterManagement():
             self.connection.commit()
             self.cursor.execute(f"DELETE FROM characters WHERE nombre = '{name}'")
             self.connection.commit()
-            result = f"{name} borrado"
+            result = f"**{name.replace('_', ' ')}** borrado"
         except:
-            result = f"{name} no existe"
+            result = f"**{name.replace('_', ' ')}** no existe"
 
         self.close_connection()
         return result
