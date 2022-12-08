@@ -5,8 +5,6 @@ An important module that contains all functions referrer to the manipulation of
 All information is saved in a SQlite local database named 'Roleplay'
 """
 import sqlite3
-from professions import *
-
 
 class CharacterManagement():
     """
@@ -18,13 +16,55 @@ class CharacterManagement():
         self.cursor = None
         self.database = 'Roleplay'  # Database name
 
+    #--------------------------------------- USEFUL FUNCTIONS ---------------------------------------
+
     def get_fixed_name(self, name: str, isName = True) -> str:
         """
-        Return a character name replacing blank spaces to _
+        Return a character name replacing blank spaces to _ 
+        If isName set the first letter of each word as upper case
         """
         if isName:
             name = name.title()
         return name.replace(' ', '_')
+
+    def get_professions(self):
+        """
+        Look for professions in the professions.txt file and return it as a tuple of tuples dict ex:
+
+        {
+            'Warrior':(
+                ('Sword', 1),
+                ('Armor', 1)
+                ),
+            'Magician':(
+                ('Ivory staff', 1),
+                ('Book', 1)
+                )
+        }
+        """
+        professions = {}
+        with open('professions.txt', 'r', encoding='utf-8') as f:
+            for line in f.readlines():
+                if line:
+                    splits = line.split('=')
+                    prof, content = splits[0].strip(), splits[1].strip()  # Getting the profession name and content
+                    professions[prof] = content
+            f.close()
+
+        for profession, content in professions.items():
+            if profession:
+                inventory = []
+                items = content.split(',')
+                for item in items:
+                    try:
+                        item = item.strip()
+                        pr_name, value = item.split(' ')[0].replace('_', ' '), int(item.split(' ')[1])
+                        inventory.append((pr_name, value))
+                    except:
+                        next
+                professions[profession] = tuple(inventory)
+            
+            return professions
 
     #--------------------------------------- DATABASE FUNCTIONS ---------------------------------------
 
@@ -55,7 +95,7 @@ class CharacterManagement():
                 stads = list(map(lambda x: x[0], self.cursor.description))
                 
                 if 'muertes' in stads and 'kills' in stads:
-                    print('Base de datos correcta')
+                    print('Base de datos correcta\n')
                 else:
                     print('Tabla characters incorrecta, se procede a añadir las columnas faltantes')
 
@@ -74,7 +114,7 @@ class CharacterManagement():
                     'muertes' INTEGER,
                     'kills' INTEGER
                     )''')
-            print('Base de datos lista para usar')
+            print('Base de datos lista para usar\n')
             self.connection.commit()
 
         self.close_connection()
@@ -97,38 +137,43 @@ class CharacterManagement():
         state = 'creado'
         self.open_connection()
         name = self.get_fixed_name(name)
+        professions = self.get_professions()
 
-        try:
-            self.cursor.execute(f"DROP TABLE {name}_inv")
+        # If the profession exists, init the inventory else, return not found
+        if profession in professions:
+            try:
+                self.cursor.execute(f"DROP TABLE {name}_inv")
+                self.connection.commit()
+                state = 'reseteado'
+            except:
+                result += "Personaje no encontrado, se procede a crear\n"
+
+            self.cursor.execute(f'''CREATE TABLE {name}_inv (
+                'item' VARCHAR(30),
+                'cantidad' INTEGER
+                )''')
             self.connection.commit()
-            state = 'reseteado'
-        except:
-            result += "Personaje no encontrado, se procede a crear\n"
 
-        self.cursor.execute(f'''CREATE TABLE {name}_inv (
-            'item' VARCHAR(30),
-            'cantidad' INTEGER
-            )''')
-        self.connection.commit()
+            try:
+                self.cursor.execute(f"DELETE FROM characters WHERE nombre='{name}'")
+                self.connection.commit()
+            except:
+                print('Se intentó borrar un personaje no existente')
 
-        try:
-            self.cursor.execute(f"DELETE FROM characters WHERE nombre='{name}'")
+            self.cursor.execute("""
+                INSERT INTO characters
+                (nombre, clase, muertes, kills)
+                VALUES (?,?,?,?)""",
+            (name,profession, 0, 0))
+
+            self.cursor.executemany(f"INSERT INTO {name}_inv VALUES (?,?)", professions[profession])
             self.connection.commit()
-        except:
-            print('Se intentó borrar un personaje no existente')
+            result += f"**{name}** {profession} {state} con el siguiente inventario:"
 
-        self.cursor.execute("""
-            INSERT INTO characters
-            (nombre, clase, muertes, kills)
-            VALUES (?,?,?,?)""",
-        (name,profession, 0, 0))
-
-        self.cursor.executemany(f"INSERT INTO {name}_inv VALUES (?,?)", PROFESSIONS_INVENTORIES[profession])
-        self.connection.commit()
-        result += f"**{name}** {profession} {state} con el siguiente inventario:"
-
-        self.close_connection()
-        result += self.get_inventory(name)
+            self.close_connection()
+            result += self.get_inventory(name)
+        else:
+            result = 'Profesión no encontrada'
         return result
 
     def get_inventory(self, name:str) -> str:

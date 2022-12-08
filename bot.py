@@ -8,12 +8,13 @@ from general import *
 
 if __name__ == '__main__':
     config = {}
-    # Getting settings from settings.txt
+    # Get settings from settings.txt
     with open('settings.txt', 'r', encoding='utf-8') as f:
         for line in f.readlines():
             split = line.split('=')
             header, value = split[0].strip(), split[1].strip()
             config[header] = value
+        f.close()
 
     guilds_id = config['DEFAULT_GUILDS'].split(',')
     guilds_id = [int(id.strip()) for id in guilds_id]
@@ -25,6 +26,7 @@ if __name__ == '__main__':
     BOT_TOKEN = config['BOT_TOKEN']
     DEFAULT_GUILDS = guilds_id
     ADMIN_NAMES = admins
+    DEBUG = bool(int(config['DEBUG']))
 
     bot = lightbulb.BotApp(
         token= BOT_TOKEN,
@@ -98,11 +100,11 @@ if __name__ == '__main__':
         The bot respond with a file, be sure that you internet is sufficent to upload that file in less of 3 seconds
             or the command will cancel up.
 
-        param str file_name: The file name in /bot_images folder, with the extension included (example.png)
+        param str file_name: The file name in /bot_files folder, with the extension included (example.png)
         """
         path = os.getcwd()
         path = path.replace('\\', '/')
-        path = f"{path}/bot_images/{ctx.options.file_name}"
+        path = f"{path}/bot_files/{ctx.options.file_name}"
         f =hikari.File(path)
         print(path)
         await ctx.respond(f)
@@ -190,6 +192,15 @@ if __name__ == '__main__':
 
     @bot.listen(hikari.StartedEvent)
     async def bot_started(event):
+        print('\nEncendiendo bot\n')
         character_manager.initialize_database()
+        if DEBUG:
+            print('\n****** PROFESIONES ******')
+            professions = character_manager.get_professions()
+            for profession in professions:
+                print(profession)
+
+            print('\n****** PERSONAJES ******')
+            print(character_manager.get_characters().replace('*',''), '\n')
 
     bot.run()

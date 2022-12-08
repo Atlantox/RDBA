@@ -1,0 +1,5 @@
+Guerrero=Espada 1, Escudo 1, Poción 1, Armadura 1
+Táctico=Estoque 1, Armadura 1, Catalejo 1, Mapa 1
+Sigiloso=Daga_de_pícaro 1, Herramientas_de_ladrón 1, Cuchillas_venenosas 3
+Apoyo=Ballesta 1, Flechas 8, Armadura 1,Botiquín 3, Granada_pegajosa 3
+Mago=Báculo 1, Libro_de_hechizos 1, Lápiz 1, Daga_normal 1

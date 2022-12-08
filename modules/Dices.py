@@ -2,8 +2,8 @@
 A module that contains all functions that reference the use of dices 
 """
 
-from random import randrange
 import os
+from random import randrange
 
 class Dice():
     """
@@ -87,6 +87,6 @@ class Dice():
         
         path = os.getcwd()
         path = path.replace('\\', '/')
-        path = f"{path}/bot_images/dices/{diceNumber}.png"
+        path = f"{path}/bot_files/dices/{diceNumber}.png"
         print(path)
         return path
