@@ -2,7 +2,7 @@ RDBA Documentation
 
 Roleplaying Discord Bot Assistant by Atlantox7
 
-Version: 2.1
+Version: 2.2
 
 A simple Discord Bot that offers useful commands to roleplaying with friends in Discord
 
@@ -21,14 +21,14 @@ Requeriments:
 Easy mode:
 1. Download the release
 2. Config settings.txt (be sure not use blank spaces and separate all with commas)
-3. Custom the profesions as you like
+3. Custom professions.txt according to you role game
 3. Run bot.exe
 
 Developer mode:
 1. Install python
 2. Download RDBA
 3. Config settings.txt (be sure not use blank spaces and separate all with commas)
-4. Custom the professions and the code as you like
+4. Custom professions.txt according to you role game
 5. Run bot.py
 
 If you know how to implement a Discord bot, you shouldn't have problem, but, if you dont know, follow this list of tutorials: (not mines)
@@ -38,8 +38,9 @@ If you know how to implement a Discord bot, you shouldn't have problem, but, if 
 * Part 4: https://www.youtube.com/watch?v=kz8bgwkfe-k
 
 
-Version 2.1 notes:
-* Now the names (characters and stads) are most pious with upper case and blank spaces
+Version 2.2 notes:
+* Easier create custom professions using professions.txt
+* Debug field added in settings.txt, set it to 1 to see extra info in console about professions and characters, otherwise set it to 0
 
 
 Made by Atlantox7:
