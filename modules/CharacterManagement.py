@@ -52,7 +52,7 @@ class CharacterManagement():
             f.close()
 
         for profession, content in professions.items():
-            if profession:
+            if profession != '':
                 inventory = []
                 items = content.split(',')
                 for item in items:
@@ -63,8 +63,8 @@ class CharacterManagement():
                     except:
                         next
                 professions[profession] = tuple(inventory)
-            
-            return professions
+        
+        return professions
 
     #--------------------------------------- DATABASE FUNCTIONS ---------------------------------------
 
@@ -168,7 +168,7 @@ class CharacterManagement():
 
             self.cursor.executemany(f"INSERT INTO {name}_inv VALUES (?,?)", professions[profession])
             self.connection.commit()
-            result += f"**{name}** {profession} {state} con el siguiente inventario:"
+            result += f"**{name}** {profession} {state} con éxito\n"
 
             self.close_connection()
             result += self.get_inventory(name)
