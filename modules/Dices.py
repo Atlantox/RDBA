@@ -90,3 +90,33 @@ class Dice():
         path = f"{path}/bot_files/dices/{diceNumber}.png"
         print(path)
         return path
+    
+    def launch_many_dices(command:str):
+        """
+        Get a dice command like 1d10, 4d5, 2d8, 1d2
+
+        param str command: the dice command, example: '1d10'
+
+        return a string with the dice launch and the total
+        """
+
+        final_text = 'Texto de dado incorrecto, aquí tiene unos ejemplos: 1d20, 4d5, 2d8, 1d2...'
+        error = False
+
+        if 'd' not in command:
+            error = True
+        
+        if error == False:
+            number, sides = command.strip().split('d')
+            if number.isnumeric() and sides.isnumeric():
+                number, sides = int(number), int(sides)
+                final_text = f'Lanzando {command}\n'
+                total = 0
+                for i in range(number):
+                    dice_result = randrange(1, sides + 1)
+                    total += dice_result
+                    to_add = '->** ' + str(dice_result) + '**\n'
+                    final_text += to_add
+                final_text += f'Total: **{total}**'
+
+        return final_text

@@ -17,6 +17,7 @@ if __name__ == '__main__':
         f.close()
 
     guilds_id = config['DEFAULT_GUILDS'].split(',')
+    print(guilds_id)
     guilds_id = [int(id.strip()) for id in guilds_id]
 
     admins = config['ADMIN_NAMES'].split(',')
@@ -87,6 +88,14 @@ if __name__ == '__main__':
     @lightbulb.implements(lightbulb.SlashCommand)
     async def d20(ctx):
         await ctx.respond(f'{Dice.launch_dice(1,20,1)}')
+
+        
+    @bot.command
+    @lightbulb.option('roll', 'Ejemplo: 2d10', type=str)
+    @lightbulb.command('roll', 'Lanza el o los dados indicados')
+    @lightbulb.implements(lightbulb.SlashCommand)
+    async def roll(ctx):
+        await ctx.respond(f'{Dice.launch_many_dices(ctx.options.roll)}')
 
 
     #--------------------------------------- SENDING LOCAL FILES COMMANDS ---------------------------------------
