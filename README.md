@@ -16,13 +16,9 @@ You and your bot will can:
 
 All information is saved in a Sqlite database, so don't worry, every byte will be saved!
 
-Requeriments:
+How to use:
 
-Easy mode:
-1. Download the release
-2. Config settings.txt (be sure not use blank spaces and separate all with commas)
-3. Custom professions.txt according to you role game
-3. Run bot.exe
+Easy mode: https://youtu.be/cmr1uFIYQbg
 
 Developer mode:
 1. Install python
