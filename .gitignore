@@ -3,3 +3,4 @@ __pycache__/
 build/
 dist/
 my_settings.txt
+bot.spec

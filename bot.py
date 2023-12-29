@@ -17,7 +17,6 @@ if __name__ == '__main__':
         f.close()
 
     guilds_id = config['DEFAULT_GUILDS'].split(',')
-    print(guilds_id)
     guilds_id = [int(id.strip()) for id in guilds_id]
 
     admins = config['ADMIN_NAMES'].split(',')
